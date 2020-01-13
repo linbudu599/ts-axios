@@ -25,3 +25,35 @@ export function processHeaders(headers: any, data: any): any {
   }
   return headers;
 }
+
+// getAllResHeader()方法返回以下字符串，之间以回车符和换行符\r\n结尾
+// 最终需要被解析为对象
+// date: Fri, 05 Apr 2019 12:40:49 GMT
+// etag: W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"
+// connection: keep-alive
+// x-powered-by: Express
+// content-length: 13
+// content-type: application/json; charset=utf-8
+
+export function parseHeaders(headers: string): any {
+  let parsed = Object.create(null);
+  if (!headers) {
+    return parsed;
+  }
+
+  headers.split('\r\n').forEach(line => {
+    let [key, val] = line.split(':');
+    key = key.trim().toLowerCase();
+    if (!key) {
+      return;
+    }
+    if (val) {
+      val = val.trim();
+    }
+    parsed[key] = val;
+  });
+
+  return parsed;
+}
+
+console.log(1);

@@ -12,7 +12,20 @@ export interface AxiosRequestConfig {
   data?: any;
   params?: any;
   headers?: any;
+  // 在请求中可指定响应类型
+  responseType?: XMLHttpRequestResponseType;
 }
+
+export interface AxiosResponse {
+  data: any;
+  status: number;
+  statusText: string;
+  headers: any;
+  config: AxiosRequestConfig;
+  request: any;
+}
+// resolve()的参数与axios的返回值类型一致
+export interface AxiosPromiseRes extends Promise<AxiosResponse> {}
 export type Method =
   | 'get'
   | 'GET'

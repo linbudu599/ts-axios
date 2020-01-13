@@ -7,3 +7,14 @@ export function transformRequest(data: any): any {
   }
   return data;
 }
+// 将字符串数据转为对象类型
+export function transformResponse(data: any): any {
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  return data;
+}

@@ -1,23 +1,58 @@
 // 发送请求逻辑
-import { AxiosRequestConfig } from '../types';
+import { AxiosRequestConfig, AxiosPromiseRes, AxiosResponse } from '../types';
+import { parseHeaders } from '../helper/header';
+const xhr = (config: AxiosRequestConfig): AxiosPromiseRes => {
+  return new Promise(resolve => {
+    const { data = null, url, method = 'get', headers, responseType } = config;
 
-const xhr = (config: AxiosRequestConfig): void => {
-  const { url, method = 'GET', data = null, headers } = config;
-  // 对xhr对象进行封装
-  const request = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
 
-  request.open(method.toUpperCase(), url, true);
-
-  Object.keys(headers).forEach(name => {
-    // 如果没有携带数据，则删去请求头属性，减小体积
-    if (data === null && name.toLowerCase() === 'content-type') {
-      delete headers[name];
-    } else {
-      request.setRequestHeader(name, headers[name]);
+    // 设置请求头的中要求的响应类型
+    if (responseType) {
+      request.responseType = responseType;
     }
-  });
 
-  request.send(data);
+    request.open(method.toUpperCase(), url, true);
+
+    request.onreadystatechange = () => {
+      if (request.readyState !== 4) {
+        return;
+      }
+
+      // 获取原始响应头，如
+      // date: Fri, 05 Apr 2019 12:40:49 GMT
+      // etag: W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"
+      // connection: keep-alive
+      // x-powered-by: Express
+      // content-length: 13
+      // content-type: application/json; charset=utf-8
+      const responseHeaders = parseHeaders(request.getAllResponseHeaders());
+      // 获取响应数据
+      const responseData =
+        responseType && responseType !== 'text' ? request.response : request.responseText;
+
+      // 提取响应对象
+      const response: AxiosResponse = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config,
+        request
+      };
+      resolve(response);
+    };
+
+    Object.keys(headers).forEach(name => {
+      if (data === null && name.toLowerCase() === 'content-type') {
+        delete headers[name];
+      } else {
+        request.setRequestHeader(name, headers[name]);
+      }
+    });
+
+    request.send(data);
+  });
 };
 
 export default xhr;
