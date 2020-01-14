@@ -14,6 +14,7 @@ export interface AxiosRequestConfig {
   headers?: any;
   // 在请求中可指定响应类型
   responseType?: XMLHttpRequestResponseType;
+  timeout?: number;
 }
 
 export interface AxiosResponse {
@@ -24,8 +25,18 @@ export interface AxiosResponse {
   config: AxiosRequestConfig;
   request: any;
 }
+// @types/node
+export interface AxiosError extends Error {
+  config: AxiosRequestConfig;
+  code?: string;
+  request?: any;
+  response?: AxiosResponse;
+  isAxiosError: boolean;
+}
+
 // resolve()的参数与axios的返回值类型一致
 export interface AxiosPromiseRes extends Promise<AxiosResponse> {}
+
 export type Method =
   | 'get'
   | 'GET'
