@@ -55,5 +55,3 @@ export function parseHeaders(headers: string): any {
 
   return parsed;
 }
-
-console.log(1);

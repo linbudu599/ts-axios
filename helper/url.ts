@@ -1,7 +1,7 @@
 import { isDate, isObject, isPlainObject } from './util';
 
 function encode(val: string): string {
-  // 保留特殊符号，从转义字符转回原先
+  // 保留特殊符号，从转义字符转回原先的特殊字符
   return encodeURIComponent(val)
     .replace(/%40/g, '@')
     .replace(/%3A/gi, ':')
@@ -21,12 +21,12 @@ export function buildURL(url: string, params?: any) {
 
   Object.keys(params).forEach(key => {
     let val = params[key];
-    // 处理为空的参数值
+    // 处理null与undefined参数值
     if (val === null || typeof val === 'undefined') {
       return;
     }
 
-    // 将参数值全部处理到数组中
+    // 先将参数值全部处理到数组中
     let values: string[];
     if (Array.isArray(val)) {
       values = val;
@@ -35,9 +35,11 @@ export function buildURL(url: string, params?: any) {
       values = [val];
     }
 
+    // 再对数组中的每一项进行处理
     values.forEach(val => {
       if (isDate(val)) {
         val = val.toISOString();
+        // 参数是对象的情况
       } else if (isPlainObject(val)) {
         val = JSON.stringify(val);
       }
@@ -54,6 +56,7 @@ export function buildURL(url: string, params?: any) {
       url = url.slice(0, markIndex);
     }
 
+    // 如果url是第一次进行叠加，就加上?，多个参数用&进行连接
     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
   }
 
