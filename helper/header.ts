@@ -35,12 +35,14 @@ export function processHeaders(headers: any, data: any): any {
 // content-length: 13
 // content-type: application/json; charset=utf-8
 
+// 处理请求的响应头，即在响应发还给客户端时进行一次处理
 export function parseHeaders(headers: string): any {
   let parsed = Object.create(null);
   if (!headers) {
     return parsed;
   }
 
+  // 处理为对象
   headers.split('\r\n').forEach(line => {
     let [key, val] = line.split(':');
     key = key.trim().toLowerCase();

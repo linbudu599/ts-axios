@@ -11,8 +11,7 @@ Achieve Own Axios By TypeScript. 🦄
 | - examples ----- demo及测试
   | - base ----- 基本demo
   | - error ----- 错误demo
-  | - simple
-  | - server.js ----- 使用 express+webpack 启动服务
+  | - server.js ----- 使用 express + webpack 启动服务
 | - helper ----- 工具函数
   | - data.ts ----- 处理请求/响应数据
   | - error.ts ----- 处理过程中的错误
@@ -22,7 +21,7 @@ Achieve Own Axios By TypeScript. 🦄
 | - src ----- 项目主文件
   | - axios.ts ----- 调用处理方法来发送请求&处理响应
   | - index.ts ----- 入口
-  | - xhr.ts ----- 封装原生XHR对象
+  | - xhr.ts ----- 封装原生XHR对象，处理请求与响应
 | - types ----- 类型文件
 ```
 

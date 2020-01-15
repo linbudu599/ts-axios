@@ -69,7 +69,7 @@ const xhr = (config: AxiosRequestConfig): AxiosPromiseRes => {
       const responseData =
         responseType && responseType !== 'text' ? request.response : request.responseText;
 
-      // 提取响应对象
+      // 拼装响应对象
       const response: AxiosResponse = {
         data: responseData,
         status: request.status,
