@@ -13,7 +13,7 @@ const xhr = (config: AxiosRequestConfig): AxiosPromiseRes => {
       request.responseType = responseType;
     }
 
-    request.open(method.toUpperCase(), url, true);
+    request.open(method.toUpperCase(), url as string, true);
 
     // 网络异常
     request.onerror = () => {

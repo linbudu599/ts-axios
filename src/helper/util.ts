@@ -11,3 +11,11 @@ export function isObject(val: any): val is Object {
 export function isPlainObject(val: any): val is Object {
   return Object.prototype.toString.call(val) === '[object Object]';
 }
+
+// 作用：把from的属性都扩展到to中，包括原型上的属性
+export function extend<T, U>(to: T, from: U): T & U {
+  for (const key in from) {
+    (to as T & U)[key] = from[key] as any;
+  }
+  return to as T & U;
+}

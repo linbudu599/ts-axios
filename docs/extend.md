@@ -1,7 +1,12 @@
-import { AxiosInstance } from './types';
-import Axios from './core/Axios';
-import { extend } from './helper/util';
+# 接口扩展
 
+> 使得既可以 axios({})也可 axios.get("",{})进行调用
+
+- 定义 [dispatchRequest 方法](../src/core/dispatchRequest.ts)，在这里处理请求/响应并调用 xhr 方法进行发送
+- 定义 Axios 类，在其中定义 get、post 等方法，
+- 在[axios.ts]中，创建一个新的 Axios 类的实例 context，使用 `bind` 创建一个绑定到 context 的，Axios 类原型上的 request 函数。
+
+```javascript
 function createInstance(): AxiosInstance {
   const context = new Axios();
   // 创建instance 指向 Axios.prototype.request 方法，并绑定了上下文 context
@@ -17,3 +22,5 @@ function createInstance(): AxiosInstance {
 const axios = createInstance();
 
 export default axios;
+
+```

@@ -29,6 +29,17 @@ router.get('/error/timeout', function(req, res) {
   }, 3000);
 });
 
+router.get('/extend/user', (req, res) => {
+  res.json({
+    code: 1,
+    result: {
+      name: 'linbudu',
+      age: 21
+    },
+    message: 'success'
+  });
+});
+
 app.use(router);
 
 app.use(
