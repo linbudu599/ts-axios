@@ -13,7 +13,7 @@ export function transformResponse(data: any): any {
     try {
       data = JSON.parse(data);
     } catch (err) {
-      throw new Error(err);
+      // throw new Error(err);
     }
   }
   return data;

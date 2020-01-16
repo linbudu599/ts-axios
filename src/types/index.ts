@@ -55,15 +55,12 @@ export type Method =
   | 'patch'
   | 'PATCH';
 
-export interface AxiosInstance extends Axios {
-  // 支持单参数
-  (config: AxiosRequestConfig): AxiosPromiseRes;
-
-  // 支持双参数
-  (url: string, config?: AxiosRequestConfig): AxiosPromiseRes;
-}
 // 扩展Axios接口
 export interface Axios {
+  interceptors: {
+    request: AxiosInterceptorManager<AxiosRequestConfig>;
+    response: AxiosInterceptorManager<AxiosResponse>;
+  };
   request<T = any>(config: AxiosRequestConfig): AxiosPromiseRes<T>;
 
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromiseRes<T>;
@@ -85,4 +82,22 @@ export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromiseRes<T>;
 
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromiseRes<T>;
+}
+
+export interface AxiosInterceptorManager<T> {
+  // 返回拦截器id
+  use(resolved: ResolvedFun<T>, rejected?: RejectedFun): number;
+
+  // 根据id取消拦截器
+  eject(id: number): void;
+}
+// 对于resolve函数的参数，请求拦截器为AxiosRequestConfig类型，响应拦截器为AxiosResponse类型
+// 对于reject函数的参数则均为any类型
+export interface ResolvedFun<T = any> {
+  // 支持同步与异步逻辑
+  (val: T): T | Promise<T>;
+}
+
+export interface RejectedFun {
+  (error: any): any;
 }

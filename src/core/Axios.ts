@@ -1,7 +1,36 @@
-import { AxiosRequestConfig, AxiosPromiseRes, Method } from '../types';
+import {
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosPromiseRes,
+  Method,
+  ResolvedFun,
+  RejectedFun
+} from '../types';
 import dispatchRequest from './dispatchRequest';
+import InterceptorManager from './interceptorManager';
+
+// 定义请求&响应拦截器管理类实例
+interface Interceptors {
+  request: InterceptorManager<AxiosRequestConfig>;
+  response: InterceptorManager<AxiosResponse>;
+}
+
+interface PromiseChain {
+  resolved: ResolvedFun | ((config: AxiosRequestConfig) => AxiosPromiseRes);
+  rejected?: RejectedFun;
+}
 
 export default class Axios {
+  interceptors: Interceptors;
+
+  constructor() {
+    this.interceptors = {
+      // 根据传入的泛型不同这个管理类的表现也不同
+      request: new InterceptorManager<AxiosRequestConfig>(),
+      response: new InterceptorManager<AxiosResponse>()
+    };
+  }
+
   _requestMethodWithoutData(method: Method, url: string, config?: AxiosRequestConfig) {
     return this.request(
       Object.assign(config || {}, {
@@ -22,7 +51,6 @@ export default class Axios {
   }
 
   request(url: any, config?: any): AxiosPromiseRes {
-    // 如果url不是字符串类型，说明传入的是单参
     if (typeof url === 'string') {
       if (!config) {
         config = {};
@@ -31,7 +59,38 @@ export default class Axios {
     } else {
       config = url;
     }
-    return dispatchRequest(config);
+
+    const chain: PromiseChain[] = [
+      {
+        //  dispatchRequest(config: AxiosRequestConfig): AxiosPromiseRes<any>
+        // 还真就严丝合缝
+        resolved: dispatchRequest,
+        rejected: undefined
+      }
+    ];
+
+    // 注意这里添加的顺序不同
+    this.interceptors.request.forEach(interceptor => {
+      chain.unshift(interceptor);
+    });
+
+    this.interceptors.response.forEach(interceptor => {
+      chain.push(interceptor);
+    });
+
+    // 定义一个已经resolve的promise
+    let promise = Promise.resolve(config);
+
+    // 循环这条链，
+    while (chain.length) {
+      // shift()方法用于删除并返回数组中的第一个值
+      // non-null assertions-->!，断言每一项都不会是null/undefined
+      const { resolved, rejected } = chain.shift()!;
+      // 把这些拦截器的resolved和rejected添加到promise.then中
+      promise = promise.then(resolved, rejected);
+    }
+
+    return promise;
   }
 
   // 不携带数据的请求

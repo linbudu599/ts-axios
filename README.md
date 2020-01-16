@@ -7,17 +7,18 @@ Achieve Own Axios By TypeScript. 🦄
 ## 目录结构
 
 ```text
-| - docs ----- 各模块讲解
+| - docs/ ----- 各模块讲解
 
-| - examples ----- demo及测试
-  | - base ----- 基本demo
-  | - error ----- 错误demo
-  | - extend ----- 扩展demo
+| - examples/ ----- demo
+  | - base/ ----- 基本demo
+  | - error/ ----- 错误demo
+  | - extend/ ----- 扩展demo
+  | - interceptor/ ----- 拦截器demo
   | - server.js ----- 使用 express + webpack 启动服务
 
-| - src ----- 项目主文件
+| - src/ ----- 项目主文件
 
-  | - helper ----- 工具函数
+  | - helper/ ----- 工具函数
     | - data.ts ----- 处理请求/响应数据
     | - error.ts ----- 处理过程中的错误
     | - header.ts ----- 处理请求/响应头部
@@ -26,6 +27,7 @@ Achieve Own Axios By TypeScript. 🦄
 
   | - core ----- 核心方法
     | - Axios.ts ----- 定义 Axios 基类
+    | - interceptorManager.ts ----- 定义 拦截器管理类
     | - dispatchRequest.ts ----- 处理请求/响应
     | - xhr.ts ----- 处理xhr对象
 
@@ -43,3 +45,4 @@ Achieve Own Axios By TypeScript. 🦄
 - [处理响应](./docs/response.md)
 - [处理异常及错误信息增强](./docs/error.md)
 - [接口扩展](./docs/extend.md)
+- [拦截器](./docs/interceptor.md)

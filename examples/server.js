@@ -39,6 +39,9 @@ router.get('/extend/user', (req, res) => {
     message: 'success'
   });
 });
+router.get('/interceptor/get', (req, res) => {
+  res.end('hello');
+});
 
 app.use(router);
 
