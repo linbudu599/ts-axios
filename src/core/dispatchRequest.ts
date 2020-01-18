@@ -1,7 +1,8 @@
 import { AxiosPromiseRes, AxiosRequestConfig, AxiosResponse } from '../types';
 import xhr from './xhr';
 import { buildURL } from '../helper/url';
-import { transformRequest, transformResponse } from '../helper/data';
+import transform from './transform';
+import { transformRequest } from '../helper/data';
 import { processHeaders, flattenHeaders } from '../helper/header';
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromiseRes {
@@ -12,10 +13,9 @@ export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromis
 }
 
 function processConfig(config: AxiosRequestConfig): void {
+  // 之前对请求数据和响应数据的处理逻辑，放到了默认配置中，也就是默认处理逻辑
   config.url = transformURL(config);
-  config.headers = transformHeaders(config);
-  config.data = transformRequestData(config);
-  // 注意断言符
+  config.data = transform(config.data, config.headers, config.transformRequest);
   config.headers = flattenHeaders(config.headers, config.method!);
 }
 
@@ -24,16 +24,8 @@ function transformURL(config: AxiosRequestConfig): string {
   return buildURL(url as string, params);
 }
 
-function transformRequestData(config: AxiosRequestConfig): any {
-  return transformRequest(config.data);
-}
-
-function transformHeaders(config: AxiosRequestConfig) {
-  const { headers = {}, data } = config;
-  return processHeaders(headers, data);
-}
-
 function transformResponseData(res: AxiosResponse): AxiosResponse {
-  res.data = transformResponse(res.data);
+  // res.data = transformResponse(res.data);
+  res.data = transform(res.data, res.headers, res.config.transformResponse);
   return res;
 }

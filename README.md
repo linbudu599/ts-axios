@@ -49,3 +49,6 @@ Achieve Own Axios By TypeScript. 🦄
 - [处理异常及错误信息增强](./docs/error.md)
 - [接口扩展](./docs/extend.md)
 - [拦截器](./docs/interceptor.md)
+- [默认配置合并]
+- [请求/响应配置化]
+- [axios.create()扩展]

@@ -15,6 +15,8 @@ export interface AxiosRequestConfig {
   // 在请求中可指定响应类型
   responseType?: XMLHttpRequestResponseType;
   timeout?: number;
+  transformRequest?: AxiosTransformer | AxiosTransformer[];
+  transformResponse?: AxiosTransformer | AxiosTransformer[];
   [propName: string]: any;
 }
 
@@ -129,3 +131,7 @@ export const defaultConfigKey: string[] = [
 export const onlyCustomConfigKey: string[] = ['url', 'method', 'params', 'data'];
 
 export const deepMergeConfigKey: string[] = ['headers', 'auth', 'proxy'];
+
+export interface AxiosTransformer {
+  (data: any, headers?: any): any;
+}
