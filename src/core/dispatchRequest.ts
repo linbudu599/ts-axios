@@ -2,7 +2,7 @@ import { AxiosPromiseRes, AxiosRequestConfig, AxiosResponse } from '../types';
 import xhr from './xhr';
 import { buildURL } from '../helper/url';
 import { transformRequest, transformResponse } from '../helper/data';
-import { processHeaders } from '../helper/header';
+import { processHeaders, flattenHeaders } from '../helper/header';
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromiseRes {
   processConfig(config);
@@ -15,6 +15,8 @@ function processConfig(config: AxiosRequestConfig): void {
   config.url = transformURL(config);
   config.headers = transformHeaders(config);
   config.data = transformRequestData(config);
+  // 注意断言符
+  config.headers = flattenHeaders(config.headers, config.method!);
 }
 
 function transformURL(config: AxiosRequestConfig): string {

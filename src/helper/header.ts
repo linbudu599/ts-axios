@@ -1,4 +1,5 @@
-import { isPlainObject } from './util';
+import { isPlainObject, deepMerge } from './util';
+import { Method } from '../types';
 
 // 规范化header字段名称
 function normalizeHeaderName(headers: any, normalizedName: string): void {
@@ -56,4 +57,33 @@ export function parseHeaders(headers: string): any {
   });
 
   return parsed;
+}
+
+export function flattenHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return headers;
+  }
+  // 将headers从多层级对象变为普通对象
+  headers = deepMerge(headers.common || {}, headers[method] || {}, headers);
+
+  // headers: {
+  //   common: {
+  //     Accept: 'application/json, text/plain, */*'
+  //   },
+  //   post: {
+  //     'Content-Type':'application/x-www-form-urlencoded'
+  //   }
+  // }
+  // headers: {
+  //   Accept: 'application/json, text/plain, */*',
+  //  'Content-Type':'application/x-www-form-urlencoded'
+  // }
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common'];
+
+  methodsToDelete.forEach(method => {
+    // 删除多余的属性
+    delete headers[method];
+  });
+
+  return headers;
 }

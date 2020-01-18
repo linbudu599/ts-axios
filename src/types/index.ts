@@ -15,6 +15,7 @@ export interface AxiosRequestConfig {
   // 在请求中可指定响应类型
   responseType?: XMLHttpRequestResponseType;
   timeout?: number;
+  [propName: string]: any;
 }
 
 export interface AxiosResponse<T = any> {
@@ -57,6 +58,7 @@ export type Method =
 
 // 扩展Axios接口
 export interface Axios {
+  defaults: AxiosRequestConfig;
   interceptors: {
     request: AxiosInterceptorManager<AxiosRequestConfig>;
     response: AxiosInterceptorManager<AxiosResponse>;
@@ -101,3 +103,29 @@ export interface ResolvedFun<T = any> {
 export interface RejectedFun {
   (error: any): any;
 }
+
+export const defaultConfigKey: string[] = [
+  'baseURL',
+  'transformRequest',
+  'transformResponse',
+  'paramsSerializer',
+  'timeout',
+  'withCredentials',
+  'adapter',
+  'responseType',
+  'xsrfCookieName',
+  'xsrfHeaderName',
+  'onUploadProgress',
+  'onDownloadProgress',
+  'maxContentLength',
+  'validateStatus',
+  'maxRedirects',
+  'httpAgent',
+  'httpsAgent',
+  'cancelToken',
+  'socketPath'
+];
+
+export const onlyCustomConfigKey: string[] = ['url', 'method', 'params', 'data'];
+
+export const deepMergeConfigKey: string[] = ['headers', 'auth', 'proxy'];
