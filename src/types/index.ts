@@ -135,3 +135,15 @@ export const deepMergeConfigKey: string[] = ['headers', 'auth', 'proxy'];
 export interface AxiosTransformer {
   (data: any, headers?: any): any;
 }
+
+// 前面实际上使用的是同一个实例,一旦修改一个实例对象默认配置,所有的实例都会受到影响
+// const spInstance = axios.create({
+//   baseURL: '',
+//   timeout: 0,
+//   headers: {
+//     'Content-Type': 'application/x-www-form-urlencoded'
+//   }
+// })
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfig): AxiosInstance;
+}
