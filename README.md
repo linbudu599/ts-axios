@@ -19,6 +19,9 @@ Achieve Own Axios By TypeScript. 🦄
 
 | - src/ ----- 项目主文件
 
+  | - cancel/ ----- 取消请求实现
+    | - CancelToken.ts ----- 定义CancelToken类
+
   | - helper/ ----- 工具函数
     | - data.ts ----- 处理请求/响应数据
     | - error.ts ----- 处理过程中的错误
@@ -52,3 +55,4 @@ Achieve Own Axios By TypeScript. 🦄
 - [默认配置合并]
 - [请求/响应配置化]
 - [axios.create()扩展]
+- [取消请求](./docs/cancel.md)

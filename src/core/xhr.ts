@@ -4,7 +4,15 @@ import { parseHeaders } from '../helper/header';
 import { createError } from '../helper/error';
 const xhr = (config: AxiosRequestConfig): AxiosPromiseRes => {
   return new Promise((resolve, reject) => {
-    const { data = null, url, method = 'get', headers, responseType, timeout } = config;
+    const {
+      data = null,
+      url,
+      method = 'get',
+      headers,
+      responseType,
+      timeout,
+      cancelToken
+    } = config;
 
     const request = new XMLHttpRequest();
 
@@ -90,6 +98,28 @@ const xhr = (config: AxiosRequestConfig): AxiosPromiseRes => {
     });
 
     request.send(data);
+
+    // 首先判断用户是否配置的cancelToken，如果没有配置，表示没有取消请求这项需求；
+    // 如果配置了cancelToken，并且当外部调用了请求取消触发函数，
+    // 此时cancelToken.promise会变成resolved 状态，
+    // 然后就会执行then函数，在then函数内部调用
+    // XMLHttpRequest对象上的abort()方法取消请求。
+    if (cancelToken) {
+      // tslint:disable-next-line: no-floating-promises
+      cancelToken.promise.then(reason => {
+        request.abort();
+        // reject：
+        // 使用时，后续可以使用catch再次进行判断
+        // .catch(function (e) {
+        //   if (axios.isCancel(e)) {
+        //     console.log('Request canceled', e.message);
+        //   } else {
+        //     // handle error
+        //   }
+        // }
+        reject(reason);
+      });
+    }
   });
 };
 

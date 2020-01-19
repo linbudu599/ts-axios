@@ -43,6 +43,14 @@ router.get('/interceptor/get', (req, res) => {
   res.end('hello');
 });
 
+router.get('/cancel', function(req, res) {
+  setTimeout(() => {
+    res.json({
+      msg: `hello world`
+    });
+  }, 3000);
+});
+
 app.use(router);
 
 app.use(
