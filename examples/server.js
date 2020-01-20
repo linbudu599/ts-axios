@@ -20,16 +20,23 @@ const cors = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
-router.post('/withCredentials', function(req, res) {
+
+app.use(express.static(__dirname, {
+  setHeaders(res) {
+    res.cookie('XSRF-TOKEN-D', '1234abc')
+  }
+}))
+
+router.post('/withCredentials', function (req, res) {
   res.set(cors);
   res.json(req.cookies);
 });
-router.options('/withCredentials', function(req, res) {
+router.options('/withCredentials', function (req, res) {
   res.set(cors);
   res.end();
 });
 
-router.get('/error/get', function(req, res) {
+router.get('/error/get', function (req, res) {
   if (Math.random() > 0.5) {
     res.json({
       msg: `hello world`
@@ -40,7 +47,7 @@ router.get('/error/get', function(req, res) {
   }
 });
 
-router.get('/error/timeout', function(req, res) {
+router.get('/error/timeout', function (req, res) {
   setTimeout(() => {
     res.json({
       msg: `hello world`
@@ -62,7 +69,7 @@ router.get('/interceptor/get', (req, res) => {
   res.end('hello');
 });
 
-router.get('/cancel', function(req, res) {
+router.get('/cancel', function (req, res) {
   setTimeout(() => {
     res.json({
       msg: `hello world`
@@ -87,7 +94,9 @@ app.use(webpackHotMiddleware(compiler));
 app.use(express.static(__dirname));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 const port = process.env.PORT || 8888;
 module.exports = app.listen(port, () => {

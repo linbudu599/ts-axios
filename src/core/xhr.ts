@@ -2,6 +2,9 @@
 import { AxiosRequestConfig, AxiosPromiseRes, AxiosResponse } from '../types';
 import { parseHeaders } from '../helper/header';
 import { createError } from '../helper/error';
+import isURLSameOrigin from '../helper/isURLSameOrigin';
+import cookies from '../helper/cookie';
+
 const xhr = (config: AxiosRequestConfig): AxiosPromiseRes => {
   return new Promise((resolve, reject) => {
     const {
@@ -12,10 +15,19 @@ const xhr = (config: AxiosRequestConfig): AxiosPromiseRes => {
       responseType,
       timeout,
       cancelToken,
-      withCredentials
+      withCredentials,
+      xsrfCookieName,
+      xsrfHeaderName
     } = config;
 
     const request = new XMLHttpRequest();
+
+    if ((withCredentials || isURLSameOrigin(url!)) && xsrfCookieName) {
+      const xsrfValue = cookies.read(xsrfCookieName);
+      if (xsrfValue) {
+        headers[xsrfHeaderName!] = xsrfValue;
+      }
+    }
 
     if (withCredentials) {
       request.withCredentials = true;

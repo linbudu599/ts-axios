@@ -60,4 +60,5 @@ Achieve Own Axios By TypeScript. 🦄
 - [请求/响应配置化](./docs/transform.md)
 - [axios.create()扩展](./docs/create.md)
 - [取消请求](./docs/cancel.md)
-- [功能扩展-withCredentials]
+- 功能扩展-withCedentials
+- [功能扩展-防御 XSRF 攻击](./docs/XSRF.md)

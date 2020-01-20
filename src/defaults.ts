@@ -24,7 +24,10 @@ const defaults: AxiosRequestConfig = {
     function(data: any): any {
       return transformResponse(data);
     }
-  ]
+  ],
+  // 与axios官方保持一致
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN'
 };
 
 const methodsWithoutData = ['delete', 'get', 'head', 'options'];
