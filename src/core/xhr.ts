@@ -11,10 +11,15 @@ const xhr = (config: AxiosRequestConfig): AxiosPromiseRes => {
       headers,
       responseType,
       timeout,
-      cancelToken
+      cancelToken,
+      withCredentials
     } = config;
 
     const request = new XMLHttpRequest();
+
+    if (withCredentials) {
+      request.withCredentials = true;
+    }
 
     // 设置请求头的中要求的响应类型
     if (responseType) {

@@ -2,8 +2,7 @@ import { AxiosPromiseRes, AxiosRequestConfig, AxiosResponse } from '../types';
 import xhr from './xhr';
 import { buildURL } from '../helper/url';
 import transform from './transform';
-import { transformRequest } from '../helper/data';
-import { processHeaders, flattenHeaders } from '../helper/header';
+import { flattenHeaders } from '../helper/header';
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromiseRes {
   throwIfCancellationRequested(config);

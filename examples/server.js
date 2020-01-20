@@ -4,11 +4,30 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const WebpackConfig = require('./webpack.config');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const compiler = webpack(WebpackConfig);
 
 const router = express.Router();
+
+app.use(cookieParser());
+
+const cors = {
+  'Access-Control-Allow-Origin': 'http://192.168.1.2:8888',
+  'Access-Control-Allow-Credentials': true,
+  'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type'
+};
+
+router.post('/withCredentials', function(req, res) {
+  res.set(cors);
+  res.json(req.cookies);
+});
+router.options('/withCredentials', function(req, res) {
+  res.set(cors);
+  res.end();
+});
 
 router.get('/error/get', function(req, res) {
   if (Math.random() > 0.5) {

@@ -2,7 +2,7 @@
 
 Achieve Own Axios By TypeScript. 🦄
 
-> 未完成！进度约 25% (2020-1-18)
+> 未完成！进度约 33% (2020-1-20)
 
 ## 目录结构
 
@@ -60,3 +60,4 @@ Achieve Own Axios By TypeScript. 🦄
 - [请求/响应配置化](./docs/transform.md)
 - [axios.create()扩展](./docs/create.md)
 - [取消请求](./docs/cancel.md)
+- [功能扩展-withCredentials]
