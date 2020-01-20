@@ -15,11 +15,14 @@ Achieve Own Axios By TypeScript. 🦄
   | - extend/ ----- 扩展demo
   | - interceptor/ ----- 拦截器demo
   | - mergeConfig/ ----- 合并配置demo
+  | - cancel/ ----- 取消请求demo
+  | - cancelToken/ ----- cancelToken一次性验证demo
   | - server.js ----- 使用 express + webpack 启动服务
 
 | - src/ ----- 项目主文件
 
   | - cancel/ ----- 取消请求实现
+    | - Cancel.ts ----- 定义Cancel类
     | - CancelToken.ts ----- 定义CancelToken类
 
   | - helper/ ----- 工具函数
@@ -34,6 +37,7 @@ Achieve Own Axios By TypeScript. 🦄
     | - interceptorManager.ts ----- 定义 拦截器管理类
     | - dispatchRequest.ts ----- 处理请求/响应
     | - xhr.ts ----- 处理xhr对象
+    | - transform.ts ----- 调用用户自定义转换函数对请求/响应进行处理
     | - mergeConfig.ts ----- 合并配置逻辑
 
   | - types ----- 类型文件
@@ -52,7 +56,7 @@ Achieve Own Axios By TypeScript. 🦄
 - [处理异常及错误信息增强](./docs/error.md)
 - [接口扩展](./docs/extend.md)
 - [拦截器](./docs/interceptor.md)
-- [默认配置合并]
-- [请求/响应配置化]
-- [axios.create()扩展]
+- [默认配置合并](./docs/merge-config.md)
+- [请求/响应配置化](./docs/transform.md)
+- [axios.create()扩展](./docs/create.md)
 - [取消请求](./docs/cancel.md)
