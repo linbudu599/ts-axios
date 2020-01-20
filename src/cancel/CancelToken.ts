@@ -42,6 +42,7 @@ export default class CancelToken {
   }
 
   throwIfRequested(): void {
+    // 如果存在说明已经被使用过了
     if (this.reason) {
       throw this.reason;
     }
