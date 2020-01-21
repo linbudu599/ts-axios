@@ -62,3 +62,4 @@ Achieve Own Axios By TypeScript. 🦄
 - [取消请求](./docs/cancel.md)
 - 功能扩展-withCedentials
 - [功能扩展-防御 XSRF 攻击](./docs/XSRF.md)
+- [功能扩展-监听上传/下载进度](./docs/watchUploadAndDownLoad.md)

@@ -5,6 +5,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const WebpackConfig = require('./webpack.config');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const app = express();
 const compiler = webpack(WebpackConfig);
@@ -20,23 +21,28 @@ const cors = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
+// 需要开放静态资源XSRF防御才会生效?
+app.use(express.static(__dirname, {}));
 
-app.use(express.static(__dirname, {
-  setHeaders(res) {
-    res.cookie('XSRF-TOKEN-D', '1234abc')
-  }
-}))
+router.get('/downloadFile', function(req, res) {
+  res.sendFile(path.resolve(__dirname, '../LICENSE'));
+});
 
-router.post('/withCredentials', function (req, res) {
+router.get('/defendXSRF', function(req, res) {
+  res.cookie('XSRF-BUDU', 'BUDUBUDU');
+  res.json(req.cookies);
+});
+
+router.post('/withCredentials', function(req, res) {
   res.set(cors);
   res.json(req.cookies);
 });
-router.options('/withCredentials', function (req, res) {
+router.options('/withCredentials', function(req, res) {
   res.set(cors);
   res.end();
 });
 
-router.get('/error/get', function (req, res) {
+router.get('/error/get', function(req, res) {
   if (Math.random() > 0.5) {
     res.json({
       msg: `hello world`
@@ -47,7 +53,7 @@ router.get('/error/get', function (req, res) {
   }
 });
 
-router.get('/error/timeout', function (req, res) {
+router.get('/error/timeout', function(req, res) {
   setTimeout(() => {
     res.json({
       msg: `hello world`
@@ -69,7 +75,7 @@ router.get('/interceptor/get', (req, res) => {
   res.end('hello');
 });
 
-router.get('/cancel', function (req, res) {
+router.get('/cancel', function(req, res) {
   setTimeout(() => {
     res.json({
       msg: `hello world`
@@ -94,9 +100,11 @@ app.use(webpackHotMiddleware(compiler));
 app.use(express.static(__dirname));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
 const port = process.env.PORT || 8888;
 module.exports = app.listen(port, () => {

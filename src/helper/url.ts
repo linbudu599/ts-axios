@@ -1,4 +1,4 @@
-import { isDate, isObject, isPlainObject } from './util';
+import { isDate, isPlainObject } from './util';
 
 function encode(val: string): string {
   // 保留特殊符号，从转义字符转回原先的特殊字符
