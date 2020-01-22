@@ -6,6 +6,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const WebpackConfig = require('./webpack.config');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const atob = require('atob');
 
 const app = express();
 const compiler = webpack(WebpackConfig);
@@ -23,6 +24,17 @@ const cors = {
 
 // 需要开放静态资源XSRF防御才会生效?
 app.use(express.static(__dirname, {}));
+
+router.get('/auth', function(req, res) {
+  const auth = req.headers.authorization;
+  const [type, credentials] = auth.split(' ');
+  console.log(atob(credentials));
+  const [username, password] = atob(credentials).split(':');
+  res.json({
+    username,
+    password
+  });
+});
 
 router.get('/downloadFile', function(req, res) {
   res.sendFile(path.resolve(__dirname, '../LICENSE'));

@@ -23,7 +23,13 @@ export interface AxiosRequestConfig {
   xsrfHeaderName?: string;
   onDownloadProgress?: (e: ProgressEvent) => void;
   onUploadProgress?: (e: ProgressEvent) => void;
+  auth?: AxiosBasicCredentials;
   [propName: string]: any;
+}
+
+export interface AxiosBasicCredentials {
+  username: string;
+  password: string;
 }
 
 export interface AxiosResponse<T = any> {
