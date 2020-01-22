@@ -1,6 +1,6 @@
 import { AxiosPromiseRes, AxiosRequestConfig, AxiosResponse } from '../types';
 import xhr from './xhr';
-import { buildURL } from '../helper/url';
+import { buildURL, isAbsoluteURL, combineURL } from '../helper/url';
 import transform from './transform';
 import { flattenHeaders } from '../helper/header';
 
@@ -20,8 +20,13 @@ function processConfig(config: AxiosRequestConfig): void {
 }
 
 function transformURL(config: AxiosRequestConfig): string {
-  const { url, params } = config;
-  return buildURL(url as string, params);
+  // const { url, params } = config;
+  // return buildURL(url as string, params);
+  let { url, params, paramsSerializer, baseURL } = config
+  if (baseURL && !isAbsoluteURL(url!)) {
+    url = combineURL(baseURL, url)
+  }
+  return buildURL(url!, params, paramsSerializer)
 }
 
 function transformResponseData(res: AxiosResponse): AxiosResponse {
