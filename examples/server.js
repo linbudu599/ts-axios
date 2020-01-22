@@ -16,11 +16,22 @@ const router = express.Router();
 app.use(cookieParser());
 
 const cors = {
-  'Access-Control-Allow-Origin': 'http://192.168.1.2:8888',
+  'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Credentials': true,
   'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type'
 };
+
+app.use(webpackHotMiddleware(compiler));
+
+app.use(express.static(__dirname));
+
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
 // 需要开放静态资源XSRF防御才会生效?
 app.use(express.static(__dirname, {}));
@@ -34,6 +45,12 @@ router.get('/auth', function(req, res) {
     username,
     password
   });
+});
+
+router.get('/status', function(req, res) {
+  console.log('re');
+  res.send('!');
+  res.sendStatus(404);
 });
 
 router.get('/downloadFile', function(req, res) {
@@ -104,17 +121,6 @@ app.use(
       colors: true,
       chunks: false
     }
-  })
-);
-
-app.use(webpackHotMiddleware(compiler));
-
-app.use(express.static(__dirname));
-
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true
   })
 );
 

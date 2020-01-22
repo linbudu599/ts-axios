@@ -13,6 +13,10 @@ const defaults: AxiosRequestConfig = {
       Accept: 'application/json, text/plain, */*'
     }
   },
+
+  validateStatus(status: number): boolean {
+    return status >= 200 && status < 300;
+  },
   transformRequest: [
     function(data: any, headers: any): any {
       processHeaders(headers, data);
