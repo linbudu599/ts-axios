@@ -104,6 +104,10 @@ router.get('/interceptor/get', (req, res) => {
   res.end('hello');
 });
 
+router.get('/api/baseURL', function(req, res) {
+  res.end('baseURL');
+});
+
 router.get('/cancel', function(req, res) {
   setTimeout(() => {
     res.json({

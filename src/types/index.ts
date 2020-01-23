@@ -26,6 +26,7 @@ export interface AxiosRequestConfig {
   auth?: AxiosBasicCredentials;
   validateStatus?: (status: number) => boolean;
   baseURL?: string;
+  getURI: (config?: AxiosRequestConfig) => string;
   [propName: string]: any;
 }
 
@@ -94,6 +95,8 @@ export interface Axios {
   put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromiseRes<T>;
 
   patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromiseRes<T>;
+
+  getURI<T = any>(config: AxiosRequestConfig): string;
 }
 
 export interface AxiosInstance extends Axios {
