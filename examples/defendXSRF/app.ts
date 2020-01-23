@@ -10,7 +10,7 @@ import axios from '../../src/axios';
 // });
 
 axios
-  .get('/defendXSRF', {
+  .get('/more/defendXSRF', {
     xsrfCookieName: 'XSRF-BUDU',
     xsrfHeaderName: 'X-XSRF-BUDU',
     withCredentials: true

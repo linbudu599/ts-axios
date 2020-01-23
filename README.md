@@ -2,7 +2,7 @@
 
 Achieve Own Axios By TypeScript. 🦄
 
-> 未完成！进度约 40% (2020-1-22)
+> 未完成！进度约 50% (2020-1-23)
 
 ## 目录结构
 
@@ -16,7 +16,13 @@ Achieve Own Axios By TypeScript. 🦄
   | - interceptor/ ----- 拦截器demo
   | - mergeConfig/ ----- 合并配置demo
   | - cancel/ ----- 取消请求demo
-  | - cancelToken/ ----- cancelToken一次性验证demo
+  | - baseURL/ ----- baseURL配置demo
+  | - paramSerializer/ ----- 自定义参数序列化demo
+  | - auth/ ----- 授权字段demo
+  | - getURI/ ----- getURI实现demo
+  | - progress/ ----- 上传/下载监控demo
+  | - status/ ----- 自定义合法状态码demo
+  |
   | - server.js ----- 使用 express + webpack 启动服务
 
 | - src/ ----- 项目主文件
@@ -27,9 +33,11 @@ Achieve Own Axios By TypeScript. 🦄
 
   | - helper/ ----- 工具函数
     | - data.ts ----- 处理请求/响应数据
+    | - cookie.ts ----- 处理cookie
     | - error.ts ----- 处理过程中的错误
     | - header.ts ----- 处理请求/响应头部
     | - url.ts ----- 处理/拼接URL
+    | - isURLSameOrigin.ts ----- 判断URL是否同源
     | - util.ts ----- 公用函数
 
   | - core ----- 核心方法
@@ -60,6 +68,7 @@ Achieve Own Axios By TypeScript. 🦄
 - [请求/响应配置化](./docs/transform.md)
 - [axios.create()扩展](./docs/create.md)
 - [取消请求](./docs/cancel.md)
-- 功能扩展-withCedentials
+- [功能扩展-withCedentials]
 - [功能扩展-防御 XSRF 攻击](./docs/XSRF.md)
 - [功能扩展-监听上传/下载进度](./docs/watchUploadAndDownLoad.md)
+- To Be Accomplished...

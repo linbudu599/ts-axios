@@ -2,7 +2,7 @@ import axios, { AxiosError } from '../../src';
 
 // 默认304不正常
 axios
-  .get('/status')
+  .get('/more/status')
   .then(res => {
     console.log(res);
   })
@@ -11,7 +11,7 @@ axios
   });
 
 axios
-  .get('/status', {
+  .get('/more/status', {
     validateStatus(status) {
       return status >= 200 && status < 400;
     }

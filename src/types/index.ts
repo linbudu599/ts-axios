@@ -26,7 +26,7 @@ export interface AxiosRequestConfig {
   auth?: AxiosBasicCredentials;
   validateStatus?: (status: number) => boolean;
   baseURL?: string;
-  getURI: (config?: AxiosRequestConfig) => string;
+  getURI?: (config?: AxiosRequestConfig) => string;
   [propName: string]: any;
 }
 

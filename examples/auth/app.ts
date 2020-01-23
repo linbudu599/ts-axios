@@ -3,8 +3,8 @@ import axios from '../../src/axios';
 axios
   .get('/auth', {
     auth: {
-      username: 'USER',
-      password: 'PWD'
+      username: 'Yee',
+      password: '123456'
     }
   })
   .then(res => {

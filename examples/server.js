@@ -33,34 +33,48 @@ app.use(
   })
 );
 
-// 需要开放静态资源XSRF防御才会生效?
-app.use(express.static(__dirname, {}));
+// app.use(express.static(__dirname, {}));
 
 router.get('/auth', function(req, res) {
-  const auth = req.headers.authorization;
-  const [type, credentials] = auth.split(' ');
-  console.log(atob(credentials));
-  const [username, password] = atob(credentials).split(':');
-  res.json({
-    username,
-    password
-  });
+  // const auth = req.headers.authorization;
+  // const [type, credentials] = auth.split(' ');
+  // console.log(atob(credentials));
+  // const [username, password] = atob(credentials).split(':');
+  // res.json({
+  //   username,
+  //   password
+  // });
+  const auth = req.headers.authorization
+  const [type, credentials] = auth.split(' ')
+  console.log(atob(credentials))
+  const [username, password] = atob(credentials).split(':')
+  if (type === 'Basic' && username === 'Yee' && password === '123456') {
+    res.json(req.body)
+  } else {
+    res.end('UnAuthorization')
+  }
 });
 
-router.get('/status', function(req, res) {
-  console.log('re');
-  res.send('!');
-  res.sendStatus(404);
+router.get('/more/status', function(req, res) {
+  res.status(304);
+  res.end();
 });
 
 router.get('/downloadFile', function(req, res) {
   res.sendFile(path.resolve(__dirname, '../LICENSE'));
 });
 
-router.get('/defendXSRF', function(req, res) {
-  res.cookie('XSRF-BUDU', 'BUDUBUDU');
+router.get('/more/defendXSRF', function(req, res) {
   res.json(req.cookies);
 });
+
+app.use(
+  express.static(__dirname, {
+    setHeaders(res) {
+      res.cookie('XSRF-BUDU', 'BUDUBUDU');
+    }
+  })
+);
 
 router.post('/withCredentials', function(req, res) {
   res.set(cors);
@@ -104,16 +118,21 @@ router.get('/interceptor/get', (req, res) => {
   res.end('hello');
 });
 
-router.get('/api/baseURL', function(req, res) {
+router.get('/more/baseURL', function(req, res) {
   res.end('baseURL');
 });
 
-router.get('/cancel', function(req, res) {
+router.get('/more/cancel', function(req, res) {
   setTimeout(() => {
     res.json({
       msg: `hello world`
     });
   }, 3000);
+});
+
+router.post('/base/post', (req, res) => {
+  console.log(req.body);
+  res.send('/base/post');
 });
 
 app.use(router);

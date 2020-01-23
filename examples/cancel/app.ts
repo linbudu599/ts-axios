@@ -6,7 +6,7 @@ let cancel: Canceler;
 
 // 服务端在接收到请求3秒后才会响应
 axios
-  .get('/cancel', {
+  .get('/more/cancel', {
     cancelToken: new CancelToken(c => {
       cancel = c;
     })
@@ -22,7 +22,7 @@ setTimeout(() => {
 const source = CancelToken.source();
 
 axios
-  .get('/api/cancel', {
+  .get('/more/cancel', {
     cancelToken: source.token
   })
   .catch(function(e) {
