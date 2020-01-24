@@ -13,7 +13,7 @@ export default function isURLSameOrigin(requestURL: string): boolean {
 const urlParsingNode = document.createElement('a');
 const currentOrigin = resolveURL(window.location.href);
 
-function resolveURL(url: string): URLOrigin {
+export function resolveURL(url: string): URLOrigin {
   urlParsingNode.setAttribute('href', url);
   const { protocol, host } = urlParsingNode;
 
