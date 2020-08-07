@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
-    "@commitlint/config-conventional": "^7.1.2",
+    "@commitlint/config-conventional": "^9.1.1",
     "@types/jest": "^24.9.0",
     "@types/node": "^10.11.0",
     "body-parser": "^1.18.3",
